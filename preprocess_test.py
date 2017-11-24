@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-train_value = pd.read_csv("Training_values.csv")
+train_value = pd.read_csv("Training_set_values.csv")
 test = pd.read_csv("Test_set_values.csv")
 
 column_labels = list(train_value.columns.values)
