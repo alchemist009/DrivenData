@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 
-
 train_value = pd.read_csv("Training_set_values.csv")
 test = pd.read_csv("Test_set_values.csv")
 
@@ -21,13 +20,16 @@ column_labels.remove("construction_year")
 test = test.fillna(test.median())
 
 for i in column_labels:
-	unique_value = list(set(np.concatenate((train_value[i].unique(), test[i].unique()))))
+	unique_value = list(set(np.concatenate((train_value[i].unique() , test[i].unique()))))
 	size = len(unique_value)
 	print(size)
 	for j in range(size):
 		if unique_value[j] != "nan":
+			# train_value.loc[train_value[i] == unique_value[j], i] = j
 			test.loc[test[i] == unique_value[j], i] = j
 
-	test = test.fillna(test.median())
+# train_value = train_value.fillna(train_value.median())
+test = test.fillna(test.median())
 
-	test.to_csv("test.csv", index = False)
+# train_value.to_csv("train_value.csv", index = False)
+test.to_csv("test.csv", index = False)
