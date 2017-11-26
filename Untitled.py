@@ -38,7 +38,7 @@ features = train.drop('status_group', axis=1)
 X_train, X_val, y_train, y_val = train_test_split(features, target, train_size=0.8)
 
 
-# In[ ]:
+# In[5]:
 
 def model(X_train, X_val, y_train, y_val, test):
     if __name__ == '__main__':
@@ -61,14 +61,53 @@ def model(X_train, X_val, y_train, y_val, test):
         print('Validation accuracy: ', validation_accuracy)
 
 
-# In[ ]:
+# In[6]:
 
-model(X_train, X_val, y_train, y_val, test)
+#model(X_train, X_val, y_train, y_val, test)
 
 
-# In[ ]:
+#{'max_features': 1.0, 'n_estimators': 100, 'learning_rate': 0.075, 
+#'max_depth': 14, 'min_samples_leaf': 15}
+#('Validation accuracy: ', 0.79887766554433226)
+
+
+# In[7]:
 
 test_id = pd.read_csv("SubmissionFormat.csv")
-test_id.columns['id', 'status_group']
+test_id.columns = ['id', 'status_group']
 test_id = test_id.id
+
+
+# In[ ]:
+
+def model_for_submission(features, target, test):
+    if __name__== '__main__':
+        
+        best_params = {'learning_rate': [0.075],
+                      'max_depth': [14],
+                      'min_samples_leaf': [15],
+                      'max_features': [1.0],
+                      'n_estimators': [100]}
+        
+        estimator = GridSearchCV(estimator=GradientBoostingClassifier(),
+                                param_grid=best_params,
+                                n_jobs=-1)
+        estimator.fit(features, target)
+        
+        predictions = estimator.predict(test)
+        data = {'ID': test_id, 'status_group': predictions}
+        
+        submit = pd.DataFrame(data=data)
+        
+        vals_to_replace = {2: 'functional', 1: 'functional needs repair',
+                          0: 'non functional'}
+        
+        submit.status_group = submit.status_group.replace(vals_to_replace)
+        
+        submit.to_csv('predictions_gradient_boostin')
+
+
+# In[ ]:
+
+model_for_submission(features, target, test)
 
