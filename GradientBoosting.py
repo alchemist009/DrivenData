@@ -74,8 +74,8 @@ def model(X_train, X_val, y_train, y_val, test):
 # In[7]:
 
 test_id = pd.read_csv("SubmissionFormat.csv")
-test_id.columns = ['id', 'status_group']
-test_id = test_id.id
+test_id.columns = ['idd', 'status_group']
+test_id = test_id.idd
 
 
 # In[ ]:
@@ -104,7 +104,7 @@ def model_for_submission(features, target, test):
         
         submit.status_group = submit.status_group.replace(vals_to_replace)
         
-        submit.to_csv('predictions_gradient_boostin')
+        submit.to_csv('predictions_gradient_boosting.csv' index=False)
 
 
 # In[ ]:
